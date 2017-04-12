@@ -76,7 +76,7 @@ class StreamSocketClientUdpTest extends TestCase
         $testData = "Hello World!";
         $numBytes = $this->socketClient->write($testData);
 
-        $this->assertEquals(strlen($testData), $numBytes);
+        $this->assertEquals(mb_strlen($testData, '8bit'), $numBytes);
 
         // check that message is sent to server
         $readData = fread($this->serverSocket, $numBytes);

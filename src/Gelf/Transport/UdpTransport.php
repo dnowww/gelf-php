@@ -81,7 +81,7 @@ class UdpTransport extends AbstractTransport
         // test if we need to split the message to multiple chunks
         // chunkSize == 0 allows for an unlimited packet-size, and therefore
         // disables chunking
-        if ($this->chunkSize && strlen($rawMessage) > $this->chunkSize) {
+        if ($this->chunkSize && mb_strlen($rawMessage, '8bit') > $this->chunkSize) {
             return $this->sendMessageInChunks($rawMessage);
         }
 

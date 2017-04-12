@@ -162,7 +162,7 @@ class HttpTransport extends AbstractTransport
         $request = array(
             sprintf("POST %s HTTP/1.1", $this->path),
             sprintf("Host: %s:%d", $this->host, $this->port),
-            sprintf("Content-Length: %d", strlen($rawMessage)),
+            sprintf("Content-Length: %d", mb_strlen($rawMessage, '8bit')),
             "Content-Type: application/json",
             "Connection: Keep-Alive",
             "Accept: */*"
@@ -214,7 +214,7 @@ class HttpTransport extends AbstractTransport
         do {
             $chunk = $this->socketClient->read($chunkSize);
             $response .= $chunk;
-        } while (false === strpos($chunk, $delimiter) && strlen($chunk) > 0);
+        } while (false === strpos($chunk, $delimiter) && mb_strlen($chunk, '8bit') > 0);
 
         $elements = explode($delimiter, $response, 2);
 

@@ -73,7 +73,7 @@ class StreamSocketClientTcpTest extends TestCase
         $testData = "Hello World!";
         $numBytes = $this->socketClient->write($testData);
 
-        $this->assertEquals(strlen($testData), $numBytes);
+        $this->assertEquals(mb_strlen($testData, '8bit'), $numBytes);
 
         // check that message is sent to server
         $connection = stream_socket_accept($this->serverSocket);
@@ -103,7 +103,7 @@ class StreamSocketClientTcpTest extends TestCase
         $testData = "First thing in the morning should be to check,";
 
         $numBytes = $this->socketClient->write($testData);
-        $this->assertEquals(strlen($testData), $numBytes);
+        $this->assertEquals(mb_strlen($testData, '8bit'), $numBytes);
 
         // open connection on server-socket
         $serverConnection = stream_socket_accept($this->serverSocket);
@@ -116,7 +116,7 @@ class StreamSocketClientTcpTest extends TestCase
         $testData = "if we can write multiple times on the same socket";
 
         $numBytes = $this->socketClient->write($testData);
-        $this->assertEquals(strlen($testData), $numBytes);
+        $this->assertEquals(mb_strlen($testData, '8bit'), $numBytes);
 
         $readData = fread($serverConnection, $numBytes);
         $this->assertEquals($testData, $readData);
@@ -129,7 +129,7 @@ class StreamSocketClientTcpTest extends TestCase
         $testData = "Hello Reader :)";
 
         $numBytes = $this->socketClient->write($testData);
-        $this->assertEquals(strlen($testData), $numBytes);
+        $this->assertEquals(mb_strlen($testData, '8bit'), $numBytes);
 
         // lower timeout for server-socket
         stream_set_timeout($this->serverSocket, 0, 100);
@@ -137,7 +137,7 @@ class StreamSocketClientTcpTest extends TestCase
         $connection = stream_socket_accept($this->serverSocket);
 
         // return input as output
-        stream_copy_to_stream($connection, $connection, strlen($testData));
+        stream_copy_to_stream($connection, $connection, mb_strlen($testData, '8bit'));
 
         fclose($connection);
         $readData = $this->socketClient->read($numBytes);
@@ -150,7 +150,7 @@ class StreamSocketClientTcpTest extends TestCase
         $testData = str_repeat("0123456789", mt_rand(1, 10));
 
         $numBytes = $this->socketClient->write($testData);
-        $this->assertEquals(strlen($testData), $numBytes);
+        $this->assertEquals(mb_strlen($testData, '8bit'), $numBytes);
 
         // lower timeout for server-socket
         stream_set_timeout($this->serverSocket, 0, 100);
@@ -158,7 +158,7 @@ class StreamSocketClientTcpTest extends TestCase
         $connection = stream_socket_accept($this->serverSocket);
 
         // return input as output
-        stream_copy_to_stream($connection, $connection, strlen($testData));
+        stream_copy_to_stream($connection, $connection, mb_strlen($testData, '8bit'));
 
         fclose($connection);
 
