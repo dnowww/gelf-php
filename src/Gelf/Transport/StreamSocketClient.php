@@ -199,7 +199,7 @@ class StreamSocketClient
     public function write($buffer)
     {
         $buffer = (string) $buffer;
-        $bufLen = strlen($buffer);
+        $bufLen = mb_strlen($buffer, '8bit');
 
         $socket = $this->getSocket();
         $written = 0;

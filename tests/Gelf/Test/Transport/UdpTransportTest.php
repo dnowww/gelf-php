@@ -108,7 +108,7 @@ class UdpTransportTest extends TestCase
     {
         $chunkSize = 10;
         $transport = $this->getTransport(10);
-        $expectedMessageCount =  strlen($this->testMessage) / $chunkSize;
+        $expectedMessageCount =  mb_strlen($this->testMessage, '8bit') / $chunkSize;
 
         $this->socketClient
             ->expects($this->exactly($expectedMessageCount))
